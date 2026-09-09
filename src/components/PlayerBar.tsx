@@ -128,9 +128,9 @@ export function PlayerBar({
   return (
     <footer
       id="main-player-bar"
-      className="fixed bottom-0 left-0 right-0 z-40 bg-zinc-950/95 backdrop-blur-xl border-t border-zinc-800/80 px-3 sm:px-6 py-2.5 shadow-2xl transition-all select-none"
+      className="fixed bottom-[56px] sm:bottom-0 left-0 right-0 z-30 sm:z-40 bg-zinc-950/95 backdrop-blur-xl border-t border-zinc-800/80 px-2.5 sm:px-6 py-2 sm:py-2.5 shadow-2xl transition-all select-none"
     >
-      <div className="max-w-7xl mx-auto flex flex-col gap-1.5">
+      <div className="max-w-7xl mx-auto flex flex-col gap-1 sm:gap-1.5">
         
         {/* Progress Bar (Scrubber) */}
         {!isLive ? (
@@ -190,12 +190,12 @@ export function PlayerBar({
         )}
 
         {/* Main 3-Column Controls Grid */}
-        <div className="flex items-center justify-between gap-2 sm:gap-4">
+        <div className="flex items-center justify-between gap-1.5 sm:gap-4">
           
           {/* Left Column: Track Info */}
-          <div className="flex items-center gap-3 min-w-0 w-1/4 sm:w-1/3">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 sm:flex-initial sm:w-1/3">
             <div
-              className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-lg overflow-hidden bg-zinc-900 shrink-0 shadow-md cursor-pointer group"
+              className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-lg overflow-hidden bg-zinc-900 shrink-0 shadow-md cursor-pointer group"
               onClick={onOpenFullScreen}
               title="Abrir vista completa"
             >
@@ -237,7 +237,7 @@ export function PlayerBar({
 
             <button
               onClick={onToggleFavorite}
-              className={`p-1.5 rounded-lg transition-colors cursor-pointer shrink-0 ${
+              className={`p-2 rounded-lg transition-colors cursor-pointer shrink-0 min-h-[36px] min-w-[36px] flex items-center justify-center ${
                 isFavorite
                   ? 'text-rose-500 hover:text-rose-400'
                   : 'text-zinc-500 hover:text-zinc-300'
@@ -249,12 +249,12 @@ export function PlayerBar({
           </div>
 
           {/* Center Column: Playback Controls */}
-          <div className="flex flex-col items-center justify-center">
-            <div className="flex items-center gap-1 sm:gap-3">
+          <div className="flex flex-col items-center justify-center shrink-0">
+            <div className="flex items-center gap-0.5 sm:gap-3">
               {/* Shuffle */}
               <button
                 onClick={onToggleShuffle}
-                className={`p-1.5 sm:p-2 rounded-lg transition-colors cursor-pointer ${
+                className={`hidden sm:block p-1.5 sm:p-2 rounded-lg transition-colors cursor-pointer ${
                   isShuffle
                     ? 'text-emerald-400 bg-emerald-500/10'
                     : 'text-zinc-400 hover:text-zinc-200'
@@ -267,7 +267,7 @@ export function PlayerBar({
               {/* Prev */}
               <button
                 onClick={onPrev}
-                className="p-1.5 sm:p-2 text-zinc-300 hover:text-white rounded-lg transition-colors cursor-pointer hover:bg-zinc-800/60"
+                className="p-2 sm:p-2 text-zinc-300 hover:text-white rounded-lg transition-colors cursor-pointer hover:bg-zinc-800/60 min-h-[44px] min-w-[40px] flex items-center justify-center"
                 title="Pista anterior (P)"
               >
                 <SkipBack className="w-5 h-5 fill-current" />
@@ -279,7 +279,7 @@ export function PlayerBar({
                 onClick={onTogglePlayPause}
                 disabled={isLoading}
                 aria-label={isPlaying ? 'Pausar' : 'Reproducir'}
-                className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white text-zinc-950 flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-lg shadow-white/10 hover:bg-emerald-400 cursor-pointer disabled:opacity-70"
+                className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white text-zinc-950 flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-lg shadow-white/10 hover:bg-emerald-400 cursor-pointer disabled:opacity-70 min-h-[40px] min-w-[40px]"
                 title="Reproducir / Pausa (Espacio)"
               >
                 {isLoading ? (
@@ -294,7 +294,7 @@ export function PlayerBar({
               {/* Next */}
               <button
                 onClick={onNext}
-                className="p-1.5 sm:p-2 text-zinc-300 hover:text-white rounded-lg transition-colors cursor-pointer hover:bg-zinc-800/60"
+                className="p-2 sm:p-2 text-zinc-300 hover:text-white rounded-lg transition-colors cursor-pointer hover:bg-zinc-800/60 min-h-[44px] min-w-[40px] flex items-center justify-center"
                 title="Siguiente pista (N)"
               >
                 <SkipForward className="w-5 h-5 fill-current" />
@@ -303,7 +303,7 @@ export function PlayerBar({
               {/* Repeat */}
               <button
                 onClick={onToggleRepeat}
-                className={`p-1.5 sm:p-2 rounded-lg transition-colors cursor-pointer ${
+                className={`hidden sm:block p-1.5 sm:p-2 rounded-lg transition-colors cursor-pointer ${
                   repeatMode !== 'off'
                     ? 'text-emerald-400 bg-emerald-500/10'
                     : 'text-zinc-400 hover:text-zinc-200'
@@ -322,7 +322,7 @@ export function PlayerBar({
           </div>
 
           {/* Right Column: Volume, EQ, Mode, Queue */}
-          <div className="flex items-center justify-end gap-1.5 sm:gap-2.5 w-1/4 sm:w-1/3">
+          <div className="flex items-center justify-end gap-1 sm:gap-2.5 shrink-0 sm:w-1/3">
             
             {/* Visualizer Mode cycle */}
             <button

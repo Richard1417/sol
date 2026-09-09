@@ -832,6 +832,71 @@ export function useAudioEngine() {
     [playTrack]
   );
 
+  // Android & Mobile Media Session API Integration (Lock Screen & Notification Controls)
+  useEffect(() => {
+    if (typeof window === 'undefined' || !('mediaSession' in navigator)) return;
+
+    const track = playbackState.currentTrack;
+    if (!track) return;
+
+    try {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: track.title,
+        artist: track.artist,
+        album: track.sourceType === 'youtube' ? 'YouTube Music • SOLARE' : (track.genre || 'SOLARE MUSIC'),
+        artwork: [
+          { src: track.coverUrl, sizes: '96x96', type: 'image/jpeg' },
+          { src: track.coverUrl, sizes: '128x128', type: 'image/jpeg' },
+          { src: track.coverUrl, sizes: '192x192', type: 'image/jpeg' },
+          { src: track.coverUrl, sizes: '256x256', type: 'image/jpeg' },
+          { src: track.coverUrl, sizes: '384x384', type: 'image/jpeg' },
+          { src: track.coverUrl, sizes: '512x512', type: 'image/jpeg' },
+        ],
+      });
+
+      navigator.mediaSession.playbackState = playbackState.isPlaying ? 'playing' : 'paused';
+
+      // Set position state if duration is valid and not live stream
+      if (playbackState.duration > 0 && !track.isLive && 'setPositionState' in navigator.mediaSession) {
+        navigator.mediaSession.setPositionState({
+          duration: Math.max(0, playbackState.duration),
+          playbackRate: playbackState.playbackRate,
+          position: Math.min(Math.max(0, playbackState.currentTime), playbackState.duration),
+        });
+      }
+
+      navigator.mediaSession.setActionHandler('play', () => {
+        togglePlayPause();
+      });
+      navigator.mediaSession.setActionHandler('pause', () => {
+        togglePlayPause();
+      });
+      navigator.mediaSession.setActionHandler('previoustrack', () => {
+        prevTrack();
+      });
+      navigator.mediaSession.setActionHandler('nexttrack', () => {
+        nextTrack();
+      });
+      navigator.mediaSession.setActionHandler('seekto', (details) => {
+        if (details.seekTime !== undefined && details.seekTime !== null) {
+          seek(details.seekTime);
+        }
+      });
+    } catch (e) {
+      // mediaSession error safe catch
+    }
+  }, [
+    playbackState.currentTrack,
+    playbackState.isPlaying,
+    playbackState.currentTime,
+    playbackState.duration,
+    playbackState.playbackRate,
+    togglePlayPause,
+    prevTrack,
+    nextTrack,
+    seek,
+  ]);
+
   return {
     state: playbackState,
     queue,

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <rect width="512" height="512" rx="128" fill="#09090b" />
+  <circle cx="256" cy="256" r="160" stroke="url(#solare_gradient)" stroke-width="32" stroke-linecap="round" />
+  <g fill="url(#bar_gradient)">
+    <rect x="180" y="210" width="20" height="92" rx="10" />
+    <rect x="216" y="160" width="20" height="192" rx="10" />
+    <rect x="252" y="120" width="20" height="272" rx="10" />
+    <rect x="288" y="170" width="20" height="172" rx="10" />
+    <rect x="324" y="220" width="20" height="72" rx="10" />
+  </g>
+  <defs>
+    <linearGradient id="solare_gradient" x1="256" y1="96" x2="256" y2="416" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f97316" />
+      <stop offset="0.5" stop-color="#ef4444" />
+      <stop offset="1" stop-color="#b91c1c" />
+    </linearGradient>
+    <linearGradient id="bar_gradient" x1="256" y1="120" x2="256" y2="392" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fbbf24" />
+      <stop offset="1" stop-color="#f97316" />
+    </linearGradient>
+  </defs>
+</svg>

@@ -40,6 +40,8 @@ import { ShortcutsModal } from './components/ShortcutsModal';
 import { LocalAudioModal } from './components/LocalAudioModal';
 import { YouTubeSearchModal } from './components/YouTubeSearchModal';
 import { YouTubePlayerSlot } from './components/YouTubePlayerSlot';
+import { AndroidInstallBanner } from './components/AndroidInstallBanner';
+import { MobileBottomNav } from './components/MobileBottomNav';
 
 export default function App() {
   const {
@@ -166,6 +168,26 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [togglePlayPause, seek, setVolume, toggleMute, nextTrack, prevTrack, toggleFavorite, state]);
 
+  // Handle Android PWA shortcuts & initial URL parameters (?action=search, ?tab=radio, etc.)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const action = params.get('action');
+      const tab = params.get('tab');
+      if (action === 'search') {
+        setIsYouTubeSearchOpen(true);
+      }
+      if (tab === 'radio') {
+        setSelectedCategory('radio');
+      } else if (tab === 'favorites') {
+        setSelectedCategory('favorites');
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
   // Combine default and custom tracks for browsing
   const allTracks = useMemo(() => {
     // Avoid duplicates
@@ -242,7 +264,10 @@ export default function App() {
       />
 
       {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-40 sm:pb-28">
+        
+        {/* Android PWA Install Banner */}
+        <AndroidInstallBanner />
         
         {/* Playback Error Alert if any */}
         {state.error && (
@@ -564,6 +589,15 @@ export default function App() {
         onOpenEqualizer={() => setIsEqOpen(true)}
         onOpenFullScreen={() => setIsFullScreenOpen(true)}
         onChangeVisualizerMode={setVisualizerMode}
+      />
+
+      {/* Android Mobile Ergonomic Bottom Nav */}
+      <MobileBottomNav
+        selectedCategory={selectedCategory}
+        onSelectCategory={setSelectedCategory}
+        favoritesCount={favorites.length}
+        onOpenYouTubeSearch={() => setIsYouTubeSearchOpen(true)}
+        onOpenEqualizer={() => setIsEqOpen(true)}
       />
 
       {/* Modals & Drawers */}

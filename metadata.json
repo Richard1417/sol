@@ -1,6 +1,6 @@
 {
   "name": "SOLARE MUSIC",
-  "description": "Reproductor de música online conectado a los servidores de YouTube Music con streaming en directo, buscador en tiempo real, ecualizador y listas de reproducción.",
+  "description": "Reproductor de música online conectado a los servidores de YouTube Music con streaming en directo, buscador en tiempo real, ecualizador y listas de reproducción optimizado para celulares Android.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
